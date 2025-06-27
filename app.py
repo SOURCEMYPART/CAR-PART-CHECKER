@@ -15,11 +15,11 @@ headers = {
 def get_price_eurocarparts(part_number):
     try:
         url = f"https://www.eurocarparts.com/search/{part_number}"
+        res = requests.get(url, headers=headers)
+        soup = BeautifulSoup(res.text, "html.parser")
         if show_debug:
     st.text("🔧 Euro Car Parts HTML:")
     st.code(soup.prettify()[:2000], language="html")
-        res = requests.get(url, headers=headers)
-        soup = BeautifulSoup(res.text, "html.parser")
         price_tag = soup.find("span", class_="value")
         if price_tag:
             return float(price_tag.text.strip().replace("£", "").replace(",", ""))
@@ -30,11 +30,11 @@ def get_price_eurocarparts(part_number):
 def get_price_halfords(part_number):
     try:
         url = f"https://www.halfords.com/search?q={part_number}"
-        if show_debug:
-    st.text("🔧 Euro Car Parts HTML:")
-    st.code(soup.prettify()[:2000], language="html")
         res = requests.get(url, headers=headers)
         soup = BeautifulSoup(res.text, "html.parser")
+         if show_debug:
+    st.text("🔧 Euro Car Parts HTML:")
+    st.code(soup.prettify()[:2000], language="html")
         price_tag = soup.find("span", class_="product-card-price__current-value")
         if price_tag:
             return float(price_tag.text.strip().replace("£", "").replace(",", ""))
@@ -45,11 +45,11 @@ def get_price_halfords(part_number):
 def get_price_carparts4less(part_number):
     try:
         url = f"https://www.carparts4less.co.uk/search/{part_number}"
-        if show_debug:
-    st.text("🔧 Euro Car Parts HTML:")
-    st.code(soup.prettify()[:2000], language="html")
         res = requests.get(url, headers=headers)
         soup = BeautifulSoup(res.text, "html.parser")
+ if show_debug:
+    st.text("🔧 Euro Car Parts HTML:")
+    st.code(soup.prettify()[:2000], language="html")
         price_tag = soup.find("span", class_="Price")
         if price_tag:
             return float(price_tag.text.strip().replace("£", "").replace(",", ""))
