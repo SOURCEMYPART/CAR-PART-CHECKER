@@ -1,5 +1,4 @@
-
-import streamlit as st
+mport streamlit as st
 import requests
 from bs4 import BeautifulSoup
 
@@ -13,6 +12,10 @@ def fetch_price(url, find_price, find_name):
     try:
         res = requests.get(url, timeout=10)
         soup = BeautifulSoup(res.text, 'html.parser')
+
+        st.markdown("### Debug: EuroCarParts HTML Preview")
+        st.code(soup.prettify()[:1500])
+
         name = soup.select_one(find_name).text.strip()
         price_text = soup.select_one(find_price).text.strip().replace("£", "").replace(",", "")
         price = float(price_text)
